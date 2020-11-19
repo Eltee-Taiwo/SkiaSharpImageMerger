@@ -7,7 +7,7 @@ namespace SkiaSharpImageMerger
 {
 	class Program
 	{
-		static void Main(string[] args)
+		static void Main()
 		{
 			//get all the files in a directory
 			string[] files = Directory.GetFiles("images");
@@ -16,18 +16,13 @@ namespace SkiaSharpImageMerger
 			SKImage stitchedImage = Combine(files);
 
 			//make sure the output folder exists
-			if (!Directory.Exists("output"))
-			{
-				Directory.CreateDirectory("output");
-			}
+			Directory.CreateDirectory("output");
 
-			//save the new image
-			using (SKData encoded = stitchedImage.Encode(SKEncodedImageFormat.Png, 100))
-			using (Stream outFile = File.OpenWrite("output/stitchedImage.png"))
-			{
-				encoded.SaveTo(outFile);
-			}
-		}
+            //save the new image
+            using SKData encoded = stitchedImage.Encode(SKEncodedImageFormat.Png, 100);
+            using Stream outFile = File.OpenWrite("output/stitchedImage.png");
+            encoded.SaveTo(outFile);
+        }
 
 		public static SKImage Combine(string[] files)
 		{
